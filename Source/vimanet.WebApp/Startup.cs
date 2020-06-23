@@ -6,7 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
 using vimanet.DataAccess;
+using vimanet.DataAccess.Entities;
 
 namespace vimanet
 {
@@ -34,7 +36,7 @@ namespace vimanet
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, AppDataContext dbContext)
         {
             if (env.IsDevelopment())
             {
@@ -73,6 +75,26 @@ namespace vimanet
                 if (env.IsDevelopment())
                 {
                     spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
+
+            dbContext.Database.EnsureCreated();
+            dbContext.Users.AddRange(new List<User>()
+            {
+                new User
+                {
+                    FirstName = "Krystian",
+                    LastName = "Nowak"
+                },
+                new User
+                {
+                    FirstName = "Maciej",
+                    LastName = "Kowalski"
+                },
+                new User
+                {
+                    FirstName = "Zbigniew",
+                    LastName = "Czajka"
                 }
             });
         }

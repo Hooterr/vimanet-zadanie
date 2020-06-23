@@ -32,7 +32,7 @@ namespace vimanet.DataAccess
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Set in-memory database
-            optionsBuilder.UseSqlite("Data Source=:memory:; Version=3; New=True;");
+            optionsBuilder.UseSqlite("Data Source=:memory:;");
             base.OnConfiguring(optionsBuilder);
         }
 
