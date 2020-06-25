@@ -29,12 +29,5 @@ namespace vimanet.DataAccess
 
         #endregion
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            // Set in-memory database
-            optionsBuilder.UseSqlite("Data Source=:memory:;");
-            base.OnConfiguring(optionsBuilder);
-        }
-
     }
 }

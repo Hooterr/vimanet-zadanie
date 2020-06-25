@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Text;
+using vimanet.DataAccess.Entities;
 using vimanet.DataAccess.Repositories;
 
 namespace vimanet.DataAccess
@@ -19,7 +20,8 @@ namespace vimanet.DataAccess
             services
                 .AddScoped<ITaskGroupRepository, TaskGroupRepository>()
                 .AddScoped<IUserRepository, UserRepository>()
-                .AddScoped<ITaskGroupRepository, TaskGroupRepository>();
+                .AddScoped<ITaskGroupRepository, TaskGroupRepository>()
+                .AddScoped<IUserTaskRepository, UserTaskRepository>();
         }
     }
 }

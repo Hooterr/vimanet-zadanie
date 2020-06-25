@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using vimanet.DataAccess.Entities;
 
 namespace vimanet.DataAccess.Repositories
@@ -10,5 +11,9 @@ namespace vimanet.DataAccess.Repositories
         public UserTaskRepository(AppDataContext db) : base(db)
         {   }
 
+        public void Update(UserTask task)
+        {
+            Db.Entry(task).State = EntityState.Modified;       
+        }
     }
 }

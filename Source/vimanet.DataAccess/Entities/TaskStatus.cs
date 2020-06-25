@@ -7,7 +7,7 @@ namespace vimanet.DataAccess.Entities
     /// <summary>
     /// Represents status of a task
     /// </summary>
-    public enum Status
+    public enum TaskStatus
     {
         /// <summary>
         /// Task was just created

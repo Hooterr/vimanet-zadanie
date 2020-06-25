@@ -1,0 +1,25 @@
+<h4>Task group list</h4>
+<button type="button" class="btn btn-success" [routerLink]="['/edit', 0]">New group</button>
+
+<p *ngFor="let alert of alerts" class="mt-3">
+  <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
+</p>
+<table class='table table-striped mt-3' aria-labelledby="tableLabel" *ngIf="tasks">
+  <thead>
+    <tr>
+      <th scope="col" sortable="name" (sort)="onSort($event)">Name</th>
+      <th scope="col" sortable="taskCount" (sort)="onSort($event)">Number of tasks</th>
+      <th scope="col" class="text-right">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let task of tasks">
+      <td>{{ task.name }}</td>
+      <td>{{ task.totalNumberOfTasks }}</td>
+      <td class="text-right">
+        <button type="button" [disabled]="task.busy" class="btn btn-danger" (click)="onDeleteGroup(task)">Delete</button>
+        <button type="button" [disabled]="task.busy" class="btn btn-warning ml-3" [routerLink]="['/edit', task.id]">Edit</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

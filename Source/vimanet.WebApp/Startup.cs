@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,6 +15,10 @@ namespace vimanet
 {
     public class Startup
     {
+        // A trick to make in-memory db persistent
+        // When there aren't any open connections db gets deleted this variable stores an open connection
+        private SqliteConnection inMemorySqlite;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,8 +29,16 @@ namespace vimanet
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-            services.AddDbContext<AppDataContext>();
+            services.AddControllersWithViews().AddNewtonsoftJson();
+
+            inMemorySqlite = new SqliteConnection("Data Source=:memory:");
+            inMemorySqlite.Open();
+            
+            services.AddDbContext<AppDataContext>(options =>
+            {
+                options.UseSqlite(inMemorySqlite);
+            });
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -62,7 +75,7 @@ namespace vimanet
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action}/{id?}");
             });
 
             app.UseSpa(spa =>
@@ -97,6 +110,37 @@ namespace vimanet
                     LastName = "Czajka"
                 }
             });
+
+            dbContext.Groups.AddRange(new List<TaskGroup>()
+            {
+                new TaskGroup()
+                {
+                    Name = "Jeden",
+                    UserTasks = new List<UserTask>()
+                    {
+                        new UserTask()
+                        {
+                            Name = "Task numero 1",
+                            Deadline = new System.DateTime(2020, 5, 12),
+                            Status = TaskStatus.InProgress,
+                        }
+                    }
+
+                },
+                new TaskGroup()
+                {
+                    Name = "Dwa"
+                },
+                new TaskGroup()
+                {
+                    Name = "Trzy"
+                },
+                new TaskGroup()
+                {
+                    Name = "Cztery"
+                },
+            }) ;
+            dbContext.SaveChanges();
         }
     }
 }

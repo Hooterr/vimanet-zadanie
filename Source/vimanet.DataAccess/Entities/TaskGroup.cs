@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace vimanet.DataAccess.Entities
@@ -14,6 +15,7 @@ namespace vimanet.DataAccess.Entities
         /// <summary>
         /// Name of the group
         /// </summary>
+        [MinLength(1)]
         public string Name { get; set; }
 
         #endregion
@@ -23,7 +25,7 @@ namespace vimanet.DataAccess.Entities
         /// <summary>
         /// Tasks the group consists of
         /// </summary>
-        public ICollection<UserTask> UserTasks { get; set; }
+        public virtual ICollection<UserTask> UserTasks { get; set; }
 
         #endregion
     }

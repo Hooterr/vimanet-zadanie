@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace vimanet.DataAccess.Entities
@@ -15,14 +16,20 @@ namespace vimanet.DataAccess.Entities
         /// <summary>
         /// Name of the task
         /// </summary>
+        [MinLength(1)]
         public string Name { get; set; }
         
         /// <summary>
         /// Deadline of the task
         /// </summary>
+        [Required]
         public DateTime Deadline { get; set; }
 
-        public Status Status { get; set; }
+        /// <summary>
+        /// The status of the task described by <see cref="TaskStatus"/>
+        /// </summary>
+        [Required]
+        public TaskStatus Status { get; set; }
 
         #endregion
 
@@ -31,12 +38,22 @@ namespace vimanet.DataAccess.Entities
         /// <summary>
         /// Id of the user assigned to this task
         /// </summary>
-        public virtual int? UserId { get; set; }
+        public virtual int? AssignedUserId { get; set; }
 
         /// <summary>
         /// User that is assigned to this task
         /// </summary>
         public virtual User User { get; set; }
+
+        /// <summary>
+        /// Owner's group ID
+        /// </summary>
+        public virtual int TaskGroupId { get; set; }
+
+        /// <summary>
+        /// The group that owns this task
+        /// </summary>
+        public virtual TaskGroup Group { get; set; }
 
         #endregion
 

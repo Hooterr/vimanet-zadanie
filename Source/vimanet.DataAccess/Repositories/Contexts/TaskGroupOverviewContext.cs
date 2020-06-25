@@ -10,6 +10,11 @@ namespace vimanet.DataAccess.Repositories
     public class TaskGroupOverviewContext
     {
         /// <summary>
+        /// Id of the group
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
         /// Name of the group
         /// </summary>
         public string Name { get; set; }
