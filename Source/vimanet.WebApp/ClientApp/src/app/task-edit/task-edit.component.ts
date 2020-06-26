@@ -45,24 +45,6 @@ export class TaskEditComponent implements OnInit{
       this.dataLoadError = false;
 
       this.loadDataFromBackend();
-
-      this.assignees = [
-        {
-          firstName: "Jack",
-          lastName: "Sparrow",
-          id: 1,
-        },
-        {
-          firstName: "Elon",
-          lastName: "Musk",
-          id: 2,
-        },
-        {
-          firstName: "Jeff",
-          lastName: "Bezos",
-          id: 3,
-        }
-      ]
     }
 
     this.nameForm = this.formBuilder.group({
@@ -79,7 +61,23 @@ export class TaskEditComponent implements OnInit{
     })
   }
 
+  loadAssigneesFromBackend() {
+    this.backend.getUsers().subscribe(
+      (response: User[]) => {
+        this.assignees = response;
+      },
+      (error: HttpErrorResponse) => {
+        this.alerts.push({
+          message: 'Couldn\'t load the list of available assignees',
+          type: 'danger',
+        })
+        this.assignees = [];
+      });
+  }
   loadDataFromBackend() {
+
+    this.loadAssigneesFromBackend();
+
     this.backend.getTaskGroup(this.groupId).subscribe(
       (group: TaskGroup) => {
         if (group == null) {
@@ -150,6 +148,15 @@ export class TaskEditComponent implements OnInit{
         })
       }
     );
+  }
+
+  refreshAssignees() {
+    this.loadAssigneesFromBackend();
+    // Check if the currently selected user hasn't been meanwhile deleted
+    if (this.assignees.map((item: User) => item.id).indexOf(this.taskForm.controls['assignedUserId']) > -1)
+    {
+      this.taskForm.controls['assignedUserId'].setValue(0);
+    }
   }
 
   onTaskDelete(task: Task) {

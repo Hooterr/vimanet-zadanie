@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { TaskOverviewItem } from './task-overview/task-overview.component';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { Task } from './task-edit/task-edit.component';
+import { Task, User } from './task-edit/task-edit.component';
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +39,13 @@ export class BackendService {
     return this.http.delete(this.baseUrl + 'usertask/delete/' + id);
   }
 
+  public getUser(id: number) : Observable<User> {
+    return this.http.get<User>(this.baseUrl + 'users/get/' + id);
+  }
+
+  public getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseUrl + 'users/all');
+  }
 }
 
 export interface TaskGroup {

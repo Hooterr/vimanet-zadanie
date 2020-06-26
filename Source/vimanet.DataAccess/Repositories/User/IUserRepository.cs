@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using vimanet.DataAccess.Entities;
+using vimanet.DataAccess.Repositories.Contexts;
 
 namespace vimanet.DataAccess.Repositories
 {
@@ -10,5 +11,8 @@ namespace vimanet.DataAccess.Repositories
     /// </summary>
     public interface IUserRepository : IRepository<User>
     {
+        void Update(User user);
+        UserInfoContext GetInfo(int id);
+        IEnumerable<UserInfoContext> GetInfoAll();
     }
 }
